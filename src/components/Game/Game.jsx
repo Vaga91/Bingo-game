@@ -1,5 +1,5 @@
 import {
-  useState, useMemo, useCallback, useEffect,
+  useState, useMemo, useCallback, useEffect, useRef,
 } from 'react';
 
 import cx from 'classnames';
@@ -23,6 +23,8 @@ export const Game = () => {
   const [sayBingo, setSayBingo] = useState(false);
   const [winning, setWinning] = useState(false);
 
+  const bingoRef = useRef(null);
+
   const data = useMemo(() => {
     tableDataValidation(phrasesList.length, dimension);
 
@@ -42,9 +44,7 @@ export const Game = () => {
   }, [checked]);
 
   const handleCheckWin = (checkedArr) => {
-    const win = checkWin(checkedArr, dimension);
-
-    if (win) {
+    if (checkWin(checkedArr, dimension)) {
       setSayBingo(true);
     }
   };
@@ -54,9 +54,7 @@ export const Game = () => {
   }, []);
 
   useEffect(() => {
-    const bingoWrapper = document.getElementById('bingo');
-
-    bingoWrapper?.style.setProperty(
+    bingoRef?.current?.style.setProperty(
       '--dimension',
       dimension,
     );
@@ -66,17 +64,14 @@ export const Game = () => {
     <div className={styles.container}>
       <h2>Say BINGO to win</h2>
       {winning && <span className={styles.winningTime}>{`Winning time: ${new Date().toLocaleTimeString()}`}</span>}
-      <div className={cx(styles.wrapper, (winning || sayBingo) && styles.win)} id="bingo">
-        {data.map((el) => <Card data={el} isChecked={checked.includes(el.id)} key={el.id} onCardSelect={handleCardClick} />)}
+      <div ref={bingoRef} className={cx(styles.wrapper, (winning || sayBingo) && styles.win)}>
+        {data.map((el) => <Card key={el.id} data={el} isChecked={checked.includes(el.id)} onCardSelect={handleCardClick} />)}
       </div>
-      {sayBingo && !winning && <SayBingo win={winning} winningCallback={handleSayBingo} />}
+      {sayBingo && !winning && <SayBingo winningCallback={handleSayBingo} />}
       {winning
         && (
           <>
-            <Confetti
-              height={height}
-              width={width}
-            />
+            <Confetti height={height} width={width} />
             <div className={styles.winningMessage}><h1>You Won!</h1></div>
           </>
         )}
