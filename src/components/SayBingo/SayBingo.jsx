@@ -20,9 +20,10 @@ export const SayBingo = ({ winningCallback }) => {
         transcript,
         listening,
         browserSupportsSpeechRecognition,
+        isMicrophoneAvailable
     } = useSpeechRecognition({ commands });
 
-    if (!browserSupportsSpeechRecognition) {
+    if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) {
         winningCallback();
     }
 
