@@ -1,0 +1,93 @@
+@use "src/styles" as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  padding: 25px;
+
+  h2 {
+    color: $charade;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .winningTime {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
+
+  .wrapper {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(var(--dimension), auto);
+    justify-content: center;
+    min-width: fit-content;
+  }
+
+  .win {
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  .winningMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    h1 {
+      font-size: 65px;
+      color: #c24848;
+      animation: 1s ease 0s 1 normal none running tada;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .winningMessage {
+    h1 {
+      font-size: 30px !important;
+    }
+  }
+}
+
+@keyframes tada {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  10% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+  30% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+  40% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+  60% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+  70% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+  80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+  90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
